@@ -1,0 +1,17 @@
+{
+  "buffer_font_size": 13.0,
+  "edit_predictions": {
+    "provider": "copilot",
+  },
+  "format_on_save": "modifications",
+  "project_panel": {
+    "dock": "left",
+  },
+  "theme": {
+    "dark": "GitHub Dark",
+    "light": "GitHub Light",
+    "mode": "system",
+  },
+  "ui_font_size": 16.0,
+  "wrap_guides": [80, 120],
+}

@@ -1,0 +1,5 @@
+brew "rsync"
+cask "1password"
+cask "brave-origin"
+cask "discord"
+cask "steam"

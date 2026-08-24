@@ -1,0 +1,12 @@
+[gpg]
+  format = ssh
+[gpg "ssh"]
+  program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+[commit]
+  gpgsign = true
+[user]
+  name = Joe S.
+  email = joe@skrd.io
+  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINNro+5RHUbEf8uZjdj5kk4VPokSd9VA2vTxn0zodAfm
+[include]
+  path = ~/.config/git/local

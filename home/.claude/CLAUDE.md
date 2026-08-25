@@ -2,4 +2,4 @@ Never commit or push unless I explicitly ask (usually via the `/commit` or `/pus
 
 Never reply to PR comments or reviews; address them in code only.
 
-Don't hard-wrap Markdown prose — one line per paragraph or bullet, however long. When a file or repo already hard-wraps, follow its existing convention.
+Don't hard-wrap Markdown prose — one line per paragraph or bullet, however long. Match a file that already hard-wraps; new files never do.

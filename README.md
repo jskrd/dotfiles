@@ -1,10 +1,10 @@
 # dotfiles
 
-Personal machine configuration. `./bootstrap.sh` installs Homebrew dependencies and syncs everything under `home/` into `$HOME`.
+Personal machine configuration. `./install.sh` installs Homebrew dependencies and syncs everything under `home/` into `$HOME`.
 
 ## Claude Code
 
-`home/.claude/` — instructions, agents and skills. No setup beyond `./bootstrap.sh`.
+`home/.claude/` — instructions, agents and skills. No setup beyond `./install.sh`.
 
 ## Git
 
@@ -39,4 +39,4 @@ For more than one profile, add a conditional include scoped to that org's direct
 
 ## Zed
 
-`home/.config/zed/settings.json` — editor settings. No setup beyond `./bootstrap.sh`.
+`home/.config/zed/settings.json` — editor settings. No setup beyond `./install.sh`.

@@ -5,11 +5,11 @@ readonly REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 main() {
   install_brew_if_needed
 
-  if confirm "Bootstrapping for play?"; then
+  if confirm "Install for play?"; then
     install_brew_dependencies play
   fi
 
-  if confirm "Bootstrapping for work?"; then
+  if confirm "Install for work?"; then
     install_brew_dependencies work
 
     sync_home_files

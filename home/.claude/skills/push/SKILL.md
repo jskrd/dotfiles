@@ -40,7 +40,7 @@ If `HAS_UPSTREAM=1`, **skip this step** — the branch is already on the remote;
 - **Body** — if `PR_TEMPLATE` is non-empty, read that file and fill it meaningfully (placeholders, checkboxes, drop comments). Empty → `### What change` and `### Why change`.
 - Draw the title and body from the commits **and this session's discussion** — the conversation holds the _why_ the diff can't show. Keep it plain, readable at any level.
 - Existing PR, draft or open (`gh pr view --json title,body` succeeds): if the title or body have drifted from the above, update with `gh pr edit --title "<title>" --body-file <file>` — amend the body additively or subtractively (add/remove only what changed), don't rewrite it. Else leave it. Report the URL.
-- No PR: `gh pr create --draft --base "<default>" --title "<title>" --body-file <file>`. **Always draft.** Report the URL.
+- No PR: `gh pr create --draft --assignee @me --base "<default>" --title "<title>" --body-file <file>`. **Always draft.** Report the URL.
 
 ## Rules
 

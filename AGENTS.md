@@ -1,5 +1,3 @@
-# Agent prompts
-
 `home/.claude/` holds prompts loaded into agent context: `CLAUDE.md`, `agents/*.md`, `skills/*/SKILL.md`. Every word there costs tokens on every load.
 
 When editing them:

@@ -37,8 +37,9 @@ If `HAS_UPSTREAM=1`, **skip this step** — the branch is already on the remote;
 
 - Skip for a protected-branch push.
 - **Title** — Conventional Commits subject (`<type>[scope]: <description>`, imperative, lower case, no trailing period). One commit → reuse its subject; else summarise.
-- **Body** — if `PR_TEMPLATE` is non-empty, read that file and fill it meaningfully (placeholders, checkboxes, drop comments). Empty → `### What change` and `### Why change`.
-- Draw the title and body from the commits **and this session's discussion** — the conversation holds the _why_ the diff can't show. Keep it plain, readable at any level.
+- **Body** — if `PR_TEMPLATE` is non-empty, read that file and fill its sections; drop placeholders and comments. Empty → `### What change` and `### Why change`. No other headings.
+- Say only what the diff can't: what changed and why, each in a sentence or two, plus any decision a reviewer would question. Take the _why_ from this session's discussion, not just the commits. Don't list files, restate commits, or narrate the diff. Under 100 words unless cutting would mislead a reviewer.
+- Cut, then reread. If the meaning survives, keep the cut.
 - Existing PR, draft or open (`gh pr view --json title,body` succeeds): if the title or body have drifted from the above, update with `gh pr edit --title "<title>" --body-file <file>` — amend the body additively or subtractively (add/remove only what changed), don't rewrite it. Else leave it. Report the URL.
 - No PR: `gh pr create --draft --assignee @me --base "<default>" --title "<title>" --body-file <file>`. **Always draft.** Report the URL.
 

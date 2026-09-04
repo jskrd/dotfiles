@@ -40,7 +40,11 @@ If `HAS_UPSTREAM=1`, **skip this step** — the branch is already on the remote;
 - **Body** — if `PR_TEMPLATE` is non-empty, read that file and fill its sections; drop placeholders and comments. Empty → `### What change` and `### Why change`. No other headings.
 - Say only what the diff can't: what changed and why, each in a sentence or two, plus any decision a reviewer would question. Take the _why_ from this session's discussion, not just the commits. Don't list files, restate commits, or narrate the diff. Under 100 words unless cutting would mislead a reviewer.
 - Cut, then reread. If the meaning survives, keep the cut.
-- Existing PR, draft or open (`gh pr view --json title,body` succeeds): if the title or body have drifted from the above, update with `gh pr edit --title "<title>" --body-file <file>` — amend the body additively or subtractively (add/remove only what changed), don't rewrite it. Else leave it. Report the URL.
+- Existing PR, draft or open (`gh pr view --json title,body` succeeds): check the title and body against the whole branch diff (`git diff "<DEFAULT_BRANCH>...HEAD"`), not just the new commits. Would the body mislead a reviewer opening the diff?
+  - No → leave it. Fix-ups, review feedback, and small additions need no mention.
+  - Partly → amend: add or remove only what changed (a new decision, a dropped piece, widened scope).
+  - Broadly → rewrite by the rules above; patching a stale body leaves it stale.
+  Edit with `gh pr edit --title "<title>" --body-file <file>`. Report the URL and, if edited, one line on what changed and why.
 - No PR: `gh pr create --draft --assignee @me --base "<default>" --title "<title>" --body-file <file>`. **Always draft.** Report the URL.
 
 ## Rules

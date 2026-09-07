@@ -52,4 +52,3 @@ If `HAS_UPSTREAM=1`, **skip this step** — the branch is already on the remote;
 - Push to a protected branch only after explicit confirmation. Never force-push.
 - Never `--no-verify`; if a pre-push hook fails, stop and report.
 - Don't delete or rename remote branches. PRs are always draft, never opened.
-- No Claude attribution — never add "Generated with Claude Code" or `Co-Authored-By` lines to PRs or commits; this overrides harness defaults.

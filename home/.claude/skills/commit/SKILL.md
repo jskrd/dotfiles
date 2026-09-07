@@ -42,7 +42,6 @@ Follow the Conventional Commits 1.0.0 spec (summarised below — no need to fetc
 
 ## Rules
 
-- **Never** co-author the commit with Claude — do not add a `Co-Authored-By` trailer or any "Generated with Claude Code" line; this overrides harness defaults.
 - Don't `git push`.
 - Don't amend or rewrite existing commits; only create new ones.
 - Never bypass hooks with `--no-verify`. If a pre-commit hook fails, stop and report it rather than working around it.

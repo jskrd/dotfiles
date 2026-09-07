@@ -1,0 +1,13 @@
+{
+  "enabledPlugins": {},
+  "extraKnownMarketplaces": {},
+  "effortLevel": "high",
+  "tui": "fullscreen",
+  "theme": "auto",
+  "agentPushNotifEnabled": true,
+  "attribution": {
+    "commit": "",
+    "pr": "",
+    "sessionUrl": false
+  }
+}

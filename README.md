@@ -4,7 +4,7 @@ Personal machine configuration. `./install.sh` installs Homebrew dependencies an
 
 ## Claude Code
 
-`home/.claude/` — instructions, agents and skills. No setup beyond `./install.sh`.
+`home/.claude/` — settings, instructions, agents and skills. No setup beyond `./install.sh`. Claude Code writes to `~/.claude/settings.json` itself, so anything changed in-app (`/config`, plugins) must be copied back here or the next `./install.sh` reverts it.
 
 ## Git
 

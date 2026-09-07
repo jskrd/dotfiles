@@ -17,7 +17,9 @@ main() {
 
   if confirm "Install for work?"; then
     install_brew_dependencies work
+  fi
 
+  if confirm "Sync home directory?"; then
     sync_home_files
   fi
 

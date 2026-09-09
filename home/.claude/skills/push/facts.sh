@@ -62,6 +62,11 @@ pr_template() {
   done
 }
 
+repo_labels() {
+  gh label list --limit 100 --json name,description \
+    --jq '.[] | [.name, .description] | @tsv' 2>/dev/null
+}
+
 main() {
   if ! command -v gh >/dev/null 2>&1; then
     echo "GH_ERROR=gh CLI not installed"
@@ -87,6 +92,8 @@ main() {
   echo "HAS_UPSTREAM=$(has_upstream && echo 1 || echo 0)"
   echo "TREE_DIRTY=$(tree_is_dirty && echo 1 || echo 0)"
   echo "PR_TEMPLATE=$(pr_template)"
+  echo "--- LABELS ---"
+  repo_labels
   echo "--- COMMITS ---"
   git log "$default..HEAD" --oneline 2>/dev/null
 }

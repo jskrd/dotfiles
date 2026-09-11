@@ -1,10 +1,38 @@
 # dotfiles
 
-Personal machine configuration. `./install.sh` installs Homebrew dependencies and syncs everything under `home/` into `$HOME`.
+Personal machine configuration: Homebrew apps and everything under `home/`, synced into `$HOME`.
+
+## Install
+
+From the repo root; each step is independent.
+
+Homebrew (skip if installed):
+
+```sh
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+Work apps:
+
+```sh
+brew bundle --file Brewfile-work
+```
+
+Play apps:
+
+```sh
+brew bundle --file Brewfile-play
+```
+
+Sync home directory (overwrites matching files in `~`):
+
+```sh
+rsync -a home/ ~/
+```
 
 ## Claude Code
 
-`home/.claude/` — settings, instructions, agents and skills. No setup beyond `./install.sh`. Claude Code writes to `~/.claude/settings.json` itself, so anything changed in-app (`/config`, plugins) must be copied back here or the next `./install.sh` reverts it.
+`home/.claude/` — settings, instructions, agents and skills. No setup beyond syncing. Claude Code writes to `~/.claude/settings.json` itself, so anything changed in-app (`/config`, plugins) must be copied back here or the next sync reverts it.
 
 ## Git
 
@@ -39,4 +67,4 @@ For more than one profile, add a conditional include scoped to that org's direct
 
 ## Zed
 
-`home/.config/zed/settings.json` — editor settings. No setup beyond `./install.sh`.
+`home/.config/zed/settings.json` — editor settings. No setup beyond syncing.

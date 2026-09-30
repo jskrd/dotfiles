@@ -1,0 +1,7 @@
+{
+  "extends": ["@tsconfig/strictest", "@tsconfig/node26"],
+  "compilerOptions": {
+    "noEmit": true,
+    "allowImportingTsExtensions": true
+  }
+}

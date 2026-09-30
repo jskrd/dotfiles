@@ -1,0 +1,158 @@
+- description: static analysis flags untouched code
+  vars:
+    notes: |
+      SonarQube has started flagging issues on lines I haven't changed. I rebased my feature branch the other day and now the PR check is failing on duplication and complexity warnings in files I've touched, but the flagged lines are nowhere near my changes.
+
+      Not sure what's changed. Did someone alter the quality gate or the new code definition? We need to figure out why it's happening and either fix the underlying issues properly or tune the new code period so PRs only get judged on what they actually change.
+
+- description: remove legacy feature toggle and beta labels
+  vars:
+    notes: |
+      Ages ago we rebuilt how rent schedules work in the property management system. Originally staff had to set up each schedule by hand, entering the instalment due dates and how much of the total rent fell on each one
+
+      The new version works all that out automatically so there's nothing to enter anymore
+
+      To avoid a big bang release we put it behind a per-building setting so they could switch between the old manual schedules and the new automatic ones. The plan was once every building had moved over we'd pull the setting and delete the old scheduling logic along with the screens for managing it
+
+      That never happened. As far as I know every building is on the new schedules now but the old code and settings screens are all still there, which is going to trip up anyone new who doesn't know which one is live
+
+      We should rip out the old manual scheduling and the setting. Also while it was being rolled out we slapped "beta" badges on the new schedules in a few places. It's been stable for a long time now so those need to go too and the new behaviour should just be the default
+
+- description: expand endpoint list in post-deploy check
+  vars:
+    notes: |
+      We've got a k6 smoke test that runs after every production deploy. It hits a few URLs and checks they come back 200, just so we know the release didn't break anything obvious. It only runs against prod once the new release is live
+
+      At the moment it only covers the homepage and a couple of category pages. We want it covering all the key storefront routes since they each hit different bits of the stack
+
+      Here's the list it should check
+
+      /
+      /search?q=shoes
+      /category/womens
+      /category/mens
+      /category/sale
+      /product/classic-leather-trainer
+      /product/waterproof-hiking-boot
+      /cart
+      /checkout
+      /account/login
+      /account/orders
+      /api/stock?sku=CLT-001
+
+      To be clear the test itself shouldn't change at all, it's literally just swapping out the list of URLs. But hold off merging until the new checkout and account pages are live on prod or it'll fail
+  assert:
+    - type: contains-all
+      metric: verbatim
+      value:
+        - "/search?q=shoes"
+        - "/category/womens"
+        - "/category/mens"
+        - "/category/sale"
+        - "/product/classic-leather-trainer"
+        - "/product/waterproof-hiking-boot"
+        - "/cart"
+        - "/checkout"
+        - "/account/login"
+        - "/account/orders"
+        - "/api/stock?sku=CLT-001"
+
+- description: one-line config change
+  vars:
+    notes: can we change the from name on all outgoing emails to "Acme Support"? right now they just show up as no-reply
+  assert:
+    - type: contains-all
+      metric: verbatim
+      value:
+        - "Acme Support"
+
+- description: email regression
+  vars:
+    notes: |
+      We send these emails
+      - Contact enquiry — Goes to the support inbox whenever someone fills in the contact form.
+      - Weekly summary — Sent to a user every Monday at 09:00 with their activity from the past week. Opt-in only, off by default.
+      - Saved search alert — Meant to email someone when new results match a search they've saved. Built, but nothing actually triggers it, so it never sends.
+      Saved search alert looks like it broke and stopped sending around 3 March
+      Needs fixing
+
+- description: job queue stalls after database restart
+  vars:
+    notes: |
+      Looks like our RDS Postgres instance failed over during its maintenance window early last Tuesday morning and after that the queue worker just stopped picking up jobs. Nothing errored, the queue just quietly filled up. We only found out two days later when a customer complained their data export never arrived
+
+      We need the queue worker to recover on its own after a database restart or failover so this can't happen again. And we need some kind of alert if jobs stop being processed for whatever reason, we can't be relying on customers to tell us
+
+- description: new test type with open naming question
+  vars:
+    notes: |
+      Now that the k6 smoke test is in place and running after deploys, it's cheap and quick enough that we could lean on k6 for more of this
+
+      The team have asked for something that checks a set of specific featured products are all up after a deploy, just that each product page returns a 200. I don't think that belongs in the existing smoke test, it feels like its own separate thing. Kind of like an end to end check but done in k6 rather than a browser
+
+      I really don't want the existing smoke test touched at all. This should be a brand new test. It should be quick and light like a smoke test and not put any real load on the site, but I'm not sure smoke test is even the right name for it. Might be a better term for this kind of thing
+
+- description: unpin dependency and fix upgrade
+  vars:
+    notes: Dependabot does our weekly pnpm bumps but a while back the Better Auth update kept failing because of breaking changes in one of its dependencies, so we pinned it to the version we were on and moved on. We should do the upgrade properly now, fix whatever breaks, and unpin it so Dependabot goes back to keeping Better Auth up to date every week like everything else
+  assert:
+    - type: contains-all
+      metric: verbatim
+      value:
+        - "Better Auth"
+
+- description: two unrelated asks in one note
+  vars:
+    notes: |
+      two things really. the invoice PDF footer still has the old registered address from before we moved offices, needs updating to the new one. pretty sure it's hardcoded in the template rather than coming from settings
+
+      second and completely unrelated, the nightly supplier price list CSV import has started taking ages. used to finish in about 10 mins, now it's running past 2 hours. I suspect the row by row lookups against the products table but haven't profiled it so can't say for sure. would be good to get both sorted this sprint but the address one is more urgent, finance keep bringing it up. probably worth splitting these into separate tickets
+    tickets: 2
+
+- description: contradictory requirements
+  vars:
+    notes: |
+      we need stricter rate limiting on the public API, a couple of customers were hammering the search endpoint and slowing things down for everyone. say 60 requests a minute per API key across the board
+
+      but enterprise customers have it in their contracts that they get at least 300 a minute and we can't break that. and sales want the free tier to be really generous so people don't churn before they've tried it properly, maybe 500 a minute. I'd like the limit to be the same for everyone so it's simple to explain in the docs, although obviously not if that breaks the contracts. not sure how to square all that
+
+- description: problem with no clear ask
+  vars:
+    notes: |
+      noticed the average time from signing up to creating a first project has crept up from about 2 days to nearly 6 since we changed the onboarding flow in the summer. support also say more people are asking where to start. had a look at the funnel in analytics and there's a big drop at the template picker step
+
+      not sure what if anything we should do about it tbh, just wanted to write it down before I forgot and see what others think
+
+- description: long note with many requirements
+  vars:
+    notes: |
+      right this is a long one because there's a lot of history. when we first built the customer portal, document upload was a quick job. users attach files to a support ticket and they just get dumped into one storage bucket with whatever name the user gave them. no virus scanning, no size limit beyond whatever the web server happens to enforce, which I think is about 10MB by accident
+
+      it's been fine for a couple of years but we've now had two incidents. someone uploaded a 2GB video that tied up a worker for ages, and two customers uploaded files with the same name and one overwrote the other, which was embarrassing because it was a signed contract. security have also been on at us because there's no malware scan, so anyone could upload anything and support then open it on their laptops
+
+      I'd like us to sort the whole upload pipeline out properly
+      - files get a generated unique key in the bucket, original filename kept in the database just for display
+      - max size of 25MB, enforced on both client and server, with a clear error message rather than a generic failure
+      - every upload scanned before staff can get at it, so probably a pending state then clean or rejected, and support can't download anything until it's clean
+      - restrict file types to an allow list, pdf, png, jpg, docx and xlsx
+      - backfill existing files so they all get scanned too, ideally in batches overnight so we don't hammer the scanner
+      - some logging and a metric for rejected uploads so we can see if it's a real problem
+
+      I don't want the ticket UI changing much beyond showing each attachment's status. and I definitely don't want to break the existing download links customers have in old emails, those need to keep working somehow even after the keys change
+  assert:
+    - type: contains-all
+      metric: verbatim
+      value:
+        - "25MB"
+
+- description: product UI change
+  vars:
+    notes: |
+      can we make the primary button colour on the dashboard a bit softer. the bright orange is really harsh and a few people have said it looks like a warning rather than a normal action. design reckon a muted teal would work better, they'll send over the hex codes
+
+      also the save button should say "Save changes" rather than just "Submit", nobody knows what it submits. not sure if the same change should go on the settings page too, think it uses the same component so probably yes
+  assert:
+    - type: contains-all
+      metric: verbatim
+      value:
+        - "Save changes"

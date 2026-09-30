@@ -1,0 +1,26 @@
+{
+  "name": "evals",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "concurrently --group --timings -n dedupe,format,lint,test,typecheck --hide dedupe,format,lint,test,typecheck \"pnpm dedupe --check\" \"pnpm format --check\" \"pnpm lint\" \"pnpm test\" \"pnpm typecheck\"",
+    "eval:draft-ticket": "promptfoo eval -c src/draft-ticket/promptfooconfig.yaml --repeat 3 --no-cache",
+    "eval:view": "promptfoo view --yes",
+    "format": "oxfmt",
+    "lint": "oxlint",
+    "test": "vitest run --coverage",
+    "typecheck": "tsc"
+  },
+  "devDependencies": {
+    "@tsconfig/node26": "^26.0.1",
+    "@tsconfig/strictest": "^2.0.8",
+    "@types/node": "^26.6.3",
+    "@vitest/coverage-v8": "^5.0.2",
+    "concurrently": "^10.0.5",
+    "oxfmt": "^0.71.0",
+    "oxlint": "^1.86.0",
+    "promptfoo": "^0.123.1",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.2"
+  }
+}

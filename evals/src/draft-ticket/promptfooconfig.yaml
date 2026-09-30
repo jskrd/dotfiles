@@ -1,0 +1,44 @@
+description: draft-ticket
+
+prompts:
+  - file://prompt.ts
+
+providers:
+  - id: anthropic:messages:claude-sonnet-5-5
+    config:
+      max_tokens: 8192
+      apiKeyRequired: false
+
+defaultTest:
+  options:
+    provider:
+      id: file://../providers/claude-cli.ts
+      config:
+        model: opus
+  assert:
+    - type: javascript
+      metric: format
+      value: file://graders/format.ts
+    - type: javascript
+      metric: tickets
+      value: file://graders/tickets.ts
+    - type: not-icontains
+      metric: voice
+      value: the notes
+    - type: llm-rubric
+      metric: faithful
+      value: file://graders/rubric.ts:faithful
+    - type: llm-rubric
+      metric: complete
+      value: file://graders/rubric.ts:complete
+    - type: llm-rubric
+      metric: testable
+      value: file://graders/rubric.ts:testable
+    - type: llm-rubric
+      metric: covered
+      value: file://graders/rubric.ts:covered
+    - type: llm-rubric
+      metric: plain
+      value: file://graders/rubric.ts:plain
+
+tests: file://tests.yaml

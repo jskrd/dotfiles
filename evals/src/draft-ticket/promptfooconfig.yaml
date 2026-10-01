@@ -22,9 +22,11 @@ defaultTest:
     - type: javascript
       metric: tickets
       value: file://graders/tickets.ts
-    - type: not-icontains
+    - type: not-icontains-any
       metric: voice
-      value: the notes
+      value:
+        - the notes
+        - open question
     - type: llm-rubric
       metric: faithful
       value: file://graders/rubric.ts:faithful

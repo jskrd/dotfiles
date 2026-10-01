@@ -10,7 +10,7 @@ export const faithful = criterion(
 );
 
 export const complete = criterion(
-  "Every requirement, constraint and open question in the notes appears in the ticket.",
+  "Every requirement and constraint the notes state as settled appears in the ticket; unclear or undecided points may be left out.",
 );
 
 export const testable = criterion("Each acceptance criterion is observable and testable.");

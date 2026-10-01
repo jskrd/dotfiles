@@ -1,5 +1,6 @@
 const SECTIONS = ["User Story", "About", "Acceptance Criteria", "Test Plan"];
 export const FENCE = /```markdown\n([\s\S]*?)\n```/gi;
+const TICKET = /\*\*Title:\*\* .+\n\n```markdown\n[\s\S]*?\n```/gi;
 
 const checkTicket = (body: string): Record<string, boolean> => {
   const sections: Record<string, string> = Object.fromEntries(
@@ -25,8 +26,10 @@ const checkTicket = (body: string): Record<string, boolean> => {
 export default (output: string) => {
   const tickets = [...output.matchAll(FENCE)].map((m) => checkTicket(String(m[1])));
   const checks: Record<string, boolean> = {
-    "markdown fences only, nothing outside":
-      tickets.length > 0 && output.replace(FENCE, "").trim() === "",
+    "title then fence per ticket, nothing else":
+      tickets.length > 0 &&
+      (output.match(TICKET) ?? []).length === tickets.length &&
+      output.replace(TICKET, "").trim() === "",
     ...Object.fromEntries(
       Object.keys(checkTicket("")).map((k) => [
         k,

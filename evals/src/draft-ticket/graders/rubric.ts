@@ -17,4 +17,8 @@ export const testable = criterion("Each acceptance criterion is observable and t
 
 export const covered = criterion("The test plan exercises every acceptance criterion.");
 
+export const titled = criterion(
+  "Each ticket's title is a few words, starts with an action verb, and gets straight to the point.",
+);
+
 export const plain = criterion("Wording is plain and concise.");

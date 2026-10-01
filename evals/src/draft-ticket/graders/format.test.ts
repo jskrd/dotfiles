@@ -1,7 +1,9 @@
 import { expect, test } from "vitest";
 import format from "./format.ts";
 
-const ticket = `\`\`\`markdown
+const ticket = `**Title:** Show export progress
+
+\`\`\`markdown
 ## User Story
 
 As a user, I want exports to show progress, so that I don't export twice.
@@ -28,8 +30,10 @@ test("passes a well-formed ticket", () => {
 });
 
 test.each([
-  ["markdown fences only, nothing outside", `Here you go:\n${ticket}`],
-  ["markdown fences only, nothing outside", `${ticket}\nand another:\n${ticket}`],
+  ["title then fence per ticket, nothing else", `Here you go:\n${ticket}`],
+  ["title then fence per ticket, nothing else", `${ticket}\nand another:\n${ticket}`],
+  ["title then fence per ticket, nothing else", ticket.replace(/^.*\n\n/, "")],
+  ["title then fence per ticket, nothing else", ticket.replace("progress\n\n", "progress\n")],
   ["user story format", `${ticket}\n\n${ticket.replace("As a user", "The user")}`],
   ["exactly the four ## sections in order", ticket.replace("## About", "### About")],
   ["user story format", ticket.replace("As a user", "The user")],

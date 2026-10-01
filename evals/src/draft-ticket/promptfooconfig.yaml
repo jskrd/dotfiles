@@ -40,6 +40,9 @@ defaultTest:
       metric: covered
       value: file://graders/rubric.ts:covered
     - type: llm-rubric
+      metric: titled
+      value: file://graders/rubric.ts:titled
+    - type: llm-rubric
       metric: plain
       value: file://graders/rubric.ts:plain
 

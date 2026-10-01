@@ -6,13 +6,15 @@ model: sonnet
 disable-model-invocation: true
 ---
 
-Rewrite the notes below as one ticket. Only split into several if the notes explicitly ask for separate tickets. Output one fenced `markdown` code block per ticket, with no text before, between or after them. Never nest code fences inside a ticket.
+Rewrite the notes below as one ticket. Only split into several if the notes explicitly ask for separate tickets. For each ticket, output `**Title:** <title>`, a blank line, then one fenced `markdown` code block. Output nothing else. Never nest code fences inside a ticket.
 
 <notes>
 $ARGUMENTS
 </notes>
 
-Use exactly these four `##` sections, in this order, with no title or other headings:
+The title is a few words starting with a verb, like Fix or Add. Be blunt.
+
+Use exactly these four `##` sections, in this order, with no other headings:
 
 - **User Story**: "As a <role>, I want <capability>, so that <benefit>." The role is a plain word for who benefits, like developer or user, not a job title.
 - **About**: plain paragraphs, no labels: first how things are today (for new features, what's missing), then what should change. Usually two, more if there's a lot of detail.

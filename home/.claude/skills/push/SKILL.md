@@ -37,7 +37,7 @@ If `HAS_UPSTREAM=1`, **skip this step** — the branch is already on the remote;
 
 - Skip for a protected-branch push.
 - **Title** — Conventional Commits subject (`<type>[scope]: <description>`, imperative, lower case, no trailing period). One commit → reuse its subject; else summarise.
-- **Body** — if `PR_TEMPLATE` is non-empty, read that file and fill its sections; drop placeholders and comments. Empty → `### What change` and `### Why change`. No other headings.
+- **Body** — if `PR_TEMPLATE` is non-empty, read that file and fill its sections; drop placeholders and comments. Empty → `### What` and `### Why`. No other headings.
 - Say only what the diff can't: what changed and why, each in a sentence or two, plus any decision a reviewer would question. Take the _why_ from this session's discussion, not just the commits. Don't list files, restate commits, or narrate the diff. Under 100 words unless cutting would mislead a reviewer.
 - Cut, then reread. If the meaning survives, keep the cut.
 - **Labels** — new PRs only; never touch labels on an existing PR. From `--- LABELS ---` pick at most 3 whose description clearly matches the change, names verbatim. No clear match → none. Never pick one that drives automation (release, semver, deploy).
